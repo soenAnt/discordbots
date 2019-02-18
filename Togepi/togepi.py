@@ -7,9 +7,11 @@ from discord import Game
 from discord.ext.commands import Bot
 
 BOT_PREFIX = ("?", "!")
-TOKEN = "no"  # Get at discordapp.com/developers/applications/me
+# Get at discordapp.com/developers/applications/me
+TOKEN = "TOKEN"
 
 client = Bot(command_prefix=BOT_PREFIX)
+
 
 @client.command(name='8ball',
                 description="Answers a yes/no question.",
@@ -27,7 +29,8 @@ async def eight_ball(context):
         'Definitely',
         'I think so!',
     ]
-    await client.say(random.choice(possible_responses) + ", " + context.message.author.mention)
+    await context.send(random.choice(possible_responses) + ", " + context.message.author.mention)
+
 
 @client.event
 async def on_message(message):
@@ -37,33 +40,26 @@ async def on_message(message):
 
     if message.content.startswith('!hello') or message.content.startswith('?hello'):
         msg = 'Hello {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)
-
-@client.event
-async def sad_message(message):
-    # we do not want the bot to reply to itself
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('Im sad'):
+        await message.channel.send(msg)
+    elif message.content.startswith('Im sad'):
         msg = 'Dont be sad {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)       
-        
+        await message.channel.send(msg)
+
+
 @client.event
 async def on_ready():
     await client.change_presence(game=Game(name="with humans"))
     print("Logged in as " + client.user.name)
 
 
+# async def list_servers():
+#     await client.wait_until_ready()
+#     while not client.is_closed:
+#         print("Current servers:")
+#         for server in client.servers:
+#             print(server.name)
+#         await asyncio.sleep(600)
 
-async def list_servers():
-    await client.wait_until_ready()
-    while not client.is_closed:
-        print("Current servers:")
-        for server in client.servers:
-            print(server.name)
-        await asyncio.sleep(600)
 
-
-client.loop.create_task(list_servers())
+# client.loop.create_task(list_servers())
 client.run(TOKEN)
