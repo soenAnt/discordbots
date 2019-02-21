@@ -1,30 +1,44 @@
-# Work with Python 3.6
-import random
-import asyncio
-import aiohttp
-import json
-from discord import Game
-from discord.ext.commands import Bot
 from discord.ext import commands
+import discord
 from discord import utils
+import random
 import os
+
 
 def run_in(channels):
     def predicate(ctx):
         return ctx.message.channel.name in channels
     return commands.check(predicate)
 
-class Togepi(commands.Bot):
+
+class Larvitar(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix='!, ?',
-            description="'Hi! I'm Togepi!'",
+            command_prefix='?',
+            description='''An example bot''',
             fetch_offline_members=True
         )
 
         self.client_id = os.environ.get('CLIENT_ID')
         self.token = os.environ.get('BOT_TOKEN')
-    
+
+        self.add_command(self.add)
+        self.add_command(self.roll)
+        self.add_command(self.choose)
+        self.add_command(self.repeat)
+        self.add_command(self.joined)
+        self.add_command(self.cool)
+        self.add_command(self.role)
+        self.add_command(self.roles)
+
+    async def on_ready(self):
+        print(f'Ready: {self.user} (ID: {self.user.id})')
+
+    # async def on_message(self, message):
+    #     if message.author.bot:
+    #         return
+    #     await self.process_commands(message)
+
     def run(self):
         try:
             super().run(
@@ -34,64 +48,94 @@ class Togepi(commands.Bot):
         finally:
             pass
 
-BOT_PREFIX = ("?", "!")
+    @commands.command()
+    async def roles(self, ctx):
+        """Get all role names in the server."""
+        rolenames = [role.name for role in ctx.guild.roles]
+        rolenames.remove('@everyone')
+        await ctx.send(rolenames)
 
- # Get at discordapp.com/developers/applications/me
+    @commands.command()
+    async def role(self, ctx, operation: str, rolename: str, member: discord.Member = None):
+        """Add or remove a role to yourself or a member."""
+        try:
+            user = member or ctx.message.author
+            role = discord.utils.get(ctx.guild.roles, name=rolename)
+            roles = ctx.guild.roles
 
-client = Bot(command_prefix=BOT_PREFIX)
+            if role not in roles:
+                await ctx.message.add_reaction('❌')
+                await ctx.send(f'{rolename} is not a role on this server, bro.')
+                return
 
-@client.command(name='8ball',
-                description="Answers a yes/no question.",
-                brief="Answers from the beyond.",
-                aliases=['eight_ball', 'eightball', '8-ball'],
-                pass_context=True)
-async def eight_ball(context):
-    possible_responses = [
-        'That is a resounding no',
-        'Absolutely NOT',
-        'It is not looking likely',
-        'Nah uh',
-        'Too hard to tell',
-        'It is quite possible',
-        'Definitely',
-        'I think so!',
-    ]
-    await client.say(random.choice(possible_responses) + ", " + context.message.author.mention)
+            if role.permissions.administrator and user.guild_permissions.administrator is not True or member and user.id != member.id:
+                await ctx.message.add_reaction('❌')
+                await ctx.send('Nice try, bro.')
+                return
 
-@client.event
-async def on_message(message):
-    # we do not want the bot to reply to itself
-    if message.author == client.user:
-        return
+            if operation == 'add':
+                await user.add_roles(role)
+            elif operation == 'remove':
+                await user.remove_roles(role)
 
-    if message.content.startswith('!hello') or message.content.startswith('?hello'):
-        msg = 'Hello {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)
+            await ctx.message.add_reaction('✅')
+        except Exception as err:
+            await ctx.message.add_reaction('❌')
+            await ctx.send(err)
 
-    elif message.content.startswith('im sad') or message.content.startswith('Im sad') or message.content.startswith("I'm sad"):
-        msg = 'Dont be sad {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)
-    
-    elif message.content.startswith('bye') or message.content.startswith('Bye') or message.content.startswith('bai'):
-        msg = 'Bye! {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)
-        
-@client.event
-async def on_ready():
-    await client.change_presence(game=Game(name="with humans"))
-    print("Logged in as " + client.user.name)
+    @commands.command()
+    async def add(self, ctx, left: int, right: int):
+        """Adds two numbers together."""
+        await ctx.send(left + right)
+
+    @commands.command()
+    async def roll(self, ctx, dice: str):
+        """Rolls a dice in NdN format."""
+        try:
+            rolls, limit = map(int, dice.split('d'))
+        except Exception:
+            await ctx.send('Format has to be in NdN!')
+            return
+
+        result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
+        await ctx.send(result)
+
+    @commands.command(
+        description='For when you wanna settle the score some other way',
+        aliases=['8ball']
+    )
+    async def choose(self, ctx, *choices: str):
+        """Chooses between multiple choices."""
+        await ctx.send(random.choice(choices))
+
+    @commands.command()
+    async def repeat(self, ctx, times: int, content='repeating...'):
+        """Repeats a message multiple times."""
+        for i in range(times):
+            await ctx.send(content)
+
+    @commands.command()
+    async def joined(self, ctx, member: discord.Member):
+        """Says when a member joined."""
+        await ctx.send('{0.name} joined in {0.joined_at}'.format(member))
+
+    @commands.group(pass_context=True)
+    async def cool(self, ctx, person: str):
+        """Says if a user is cool.
+        In reality this just checks if a subcommand is being invoked.
+        """
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f'{person} is super {"not cool" if random.randint(0,2) != 1 else "cool"}')
+
+    # @cool.command(name='bot')
+    # async def _bot(self, ctx):
+    #     """Is the bot cool?"""
+    #     await ctx.send('Yes, the bot is cool.')
+
+    # @cool.command(name='tatum')
+    # async def _tatum(self, ctx):
+    #     """Is tatum cool?"""
+    #     await ctx.send('Yes, tatum is cool.')
 
 
-
-async def list_servers():
-    await client.wait_until_ready()
-    while not client.is_closed:
-        print("Current servers:")
-        for server in client.servers:
-            print(server.name)
-        await asyncio.sleep(600)
-
-
-client.loop.create_task(list_servers())
-
-Togepi().run()
+Larvitar().run()
