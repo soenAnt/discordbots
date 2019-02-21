@@ -10,6 +10,17 @@ def run_in(channels):
         return ctx.message.channel.name in channels
     return commands.check(predicate)
 
+client = discord.Client()
+
+@client.event
+async def on_message(message):
+    # we do not want the bot to reply to itself
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('!hello'):
+        msg = 'Hello {0.author.mention}'.format(message)
+        await client.send_message(message.channel, msg)
 
 class Togepi(commands.Bot):
     def __init__(self):
@@ -21,7 +32,6 @@ class Togepi(commands.Bot):
 
         self.client_id = os.environ.get('CLIENT_ID')
         self.token = os.environ.get('BOT_TOKEN')
-
 
         self.add_command(self.hello)
 
