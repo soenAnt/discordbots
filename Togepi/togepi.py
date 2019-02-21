@@ -50,9 +50,9 @@ class Larvitar(commands.Bot):
             pass
 
     @commands.command()
-    async def hello(self, ctx, member: discord.Member):
+    async def hello(self, ctx, person: str):
         """says hello"""
-        await ctx.send('Hello! {0.name}'.format(member))
+        await ctx.send('Hello! {person}')
 
     @commands.command()
     async def roles(self, ctx):
