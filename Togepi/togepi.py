@@ -51,8 +51,9 @@ class Togepi(commands.Bot):
 
     @commands.command()
     async def hello(self, ctx):
+        author = ctx.author
         """says hello"""
-        await ctx.send('Hello!')
+        await ctx.send("{author.mention} Hello!".format(author=author))
 
     @commands.command()
     async def roles(self, ctx):
