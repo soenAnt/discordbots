@@ -11,7 +11,7 @@ def run_in(channels):
     return commands.check(predicate)
 
 
-class Larvitar(commands.Bot):
+class Togepi(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix='?',
@@ -144,4 +144,4 @@ class Larvitar(commands.Bot):
     #     await ctx.send('Yes, tatum is cool.')
 
 
-Larvitar().run()
+Togepi().run()
