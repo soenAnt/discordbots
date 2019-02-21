@@ -5,9 +5,38 @@ import aiohttp
 import json
 from discord import Game
 from discord.ext.commands import Bot
+from discord.ext import commands
+from discord import utils
+import os
+
+def run_in(channels):
+    def predicate(ctx):
+        return ctx.message.channel.name in channels
+    return commands.check(predicate)
+
+class Togepi(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='!, ?',
+            description="'Hi! I'm Togepi!'",
+            fetch_offline_members=True
+        )
+
+        self.client_id = os.environ.get('CLIENT_ID')
+        self.token = os.environ.get('BOT_TOKEN')
+    
+    def run(self):
+        try:
+            super().run(
+                self.token,
+                reconnect=True
+            )
+        finally:
+            pass
 
 BOT_PREFIX = ("?", "!")
-TOKEN = "NTQ2ODU3MjY5ODY2OTIxOTk0.D0vYeA.MqQ3OPBGxxf_0r2xRzM9Y8yUbQU"  # Get at discordapp.com/developers/applications/me
+
+ # Get at discordapp.com/developers/applications/me
 
 client = Bot(command_prefix=BOT_PREFIX)
 
@@ -64,4 +93,5 @@ async def list_servers():
 
 
 client.loop.create_task(list_servers())
-client.run(TOKEN)
+
+Togepi().run()
