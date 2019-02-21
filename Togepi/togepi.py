@@ -19,7 +19,7 @@ async def on_message(self, message):
         return
 
     if 'im sad' in message.content:
-        await message.channel.send("Don't be sad {0.author.mention}".format(message))
+        await message.channel.send('Dont be sad {0.author.mention}'.format(message))
 
     if message.content.startswith('!hello'):
         msg = 'Hello {0.author.mention}'.format(message)
