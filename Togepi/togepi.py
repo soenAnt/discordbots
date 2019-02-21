@@ -30,6 +30,7 @@ class Larvitar(commands.Bot):
         self.add_command(self.cool)
         self.add_command(self.role)
         self.add_command(self.roles)
+        self.add_command(self.hello)
 
     async def on_ready(self):
         print(f'Ready: {self.user} (ID: {self.user.id})')
@@ -47,6 +48,11 @@ class Larvitar(commands.Bot):
             )
         finally:
             pass
+
+    @commands.command()
+    async def hello(self, ctx):
+        """says hello"""
+        await ctx.send("Hello!")
 
     @commands.command()
     async def roles(self, ctx):
