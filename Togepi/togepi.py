@@ -15,7 +15,7 @@ client = discord.Client()
 @client.event
 async def on_message(self, message):
     # we do not want the bot to reply to itself
-    if message.author.mention:
+    if message.author.mention == self:
         return
 
     if 'im sad' in message.content:
