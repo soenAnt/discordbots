@@ -52,7 +52,7 @@ class Larvitar(commands.Bot):
     @commands.command()
     async def hello(self, ctx):
         """says hello"""
-        await ctx.send("Hello!")
+        await ctx.send('Hello!')
 
     @commands.command()
     async def roles(self, ctx):
