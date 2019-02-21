@@ -15,7 +15,7 @@ class Togepi(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix='?',
-            description='''An example bot''',
+            description='''Hi! I'm Togepi!''',
             fetch_offline_members=True
         )
 
@@ -53,6 +53,7 @@ class Togepi(commands.Bot):
     async def hello(self, ctx):
         author = ctx.author
         """says hello"""
+        await ctx.message.add_reaction(':heart:')
         await ctx.send("Hello! {author.mention}".format(author=author))
 
     @commands.command()
