@@ -15,13 +15,13 @@ client = discord.Client()
 @client.event
 async def on_message(self, message):
     # we do not want the bot to reply to itself
-    if messge.author.bot:
+    if message.author.bot:
         return
 
     if 'im sad' in message.content:
         await message.channel.send('Dont be sad {0.author.mention}'.format(message))
 
-    if message.content.startswith('!hello'):
+    elif message.content.startswith('!hello'):
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
 
