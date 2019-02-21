@@ -53,7 +53,7 @@ class Togepi(commands.Bot):
     async def hello(self, ctx):
         author = ctx.author
         """says hello"""
-        await ctx.message.add_reaction(':heart:')
+        await ctx.message.add_reaction('❤')
         await ctx.send("Hello! {author.mention}".format(author=author))
 
     @commands.command()
