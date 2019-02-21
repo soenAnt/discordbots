@@ -1,1 +1,1 @@
-worker: python togepi.py
+worker: python Togepi/togepi.py
