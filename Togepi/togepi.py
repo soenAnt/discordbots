@@ -12,7 +12,7 @@ def run_in(channels):
 
 client = discord.Client()
 
-@client.event
+
 async def on_message(self, message):
     # we do not want the bot to reply to itself
  #   if message.author.mention == self:
@@ -68,7 +68,7 @@ class Togepi(commands.Bot):
 
     @commands.command()
     async def sad(self, ctx):
-        author = ctx.author
+       # author = ctx.author
         """ tells a user not to be sad """
         await ctx.send("no sad")
 
