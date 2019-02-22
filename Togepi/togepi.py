@@ -59,10 +59,10 @@ class Togepi(commands.Bot):
 
 async def on_message(self, message):
     # we do not want the bot to reply to itself
- #   if message.author.mention == self:
- #       return
+    if message.author.bot:
+        return
 
-   if 'im sad' in message.content:
+    if 'im sad' in message.content:
        await message.channel.send('Dont be sad')
     
   #  if message.content.contains('im sad'):
