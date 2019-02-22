@@ -11,7 +11,6 @@ print(os.environ.get('BOT_TOKEN'))
 def run_in(channels):
     def predicate(ctx):
         return ctx.message.channel.name in channels
-
     return commands.check(predicate)
 
 
@@ -23,13 +22,15 @@ class Togepi(commands.Bot):
         super().__init__(
             command_prefix='?',
             description='''Hi! I'm Togepi!''',
-            fetch_offline_members=True)
+            fetch_offline_members=True
+        )
 
         self.client_id = os.environ.get('CLIENT_ID')
         self.token = os.environ.get('BOT_TOKEN')
 
         self.add_command(self.hello)
         self.add_command(self.sad)
+
 
     async def on_ready(self):
         print(f'Ready: {self.user} (ID: {self.user.id})')
@@ -41,7 +42,10 @@ class Togepi(commands.Bot):
 
     def run(self):
         try:
-            super().run(self.token, reconnect=True)
+            super().run(
+                self.token,
+                reconnect=True
+            )
         finally:
             pass
 
@@ -58,14 +62,13 @@ class Togepi(commands.Bot):
         """ tells a user not to be sad """
         await ctx.send("no sad")
 
-    async def on_message(self, message):
+    #async def on_message(self, message):
         # we do not want the bot to reply to itself
-        if message.author.bot:
-            return
+       # if message.author.bot:
+        #    return
 
-        if 'im sad' in message.content:
-            await message.channel.send(f'Dont be sad, {message.author.mention}'
-                                       )
+       # if 'im sad' in message.content:
+       #     await message.channel.send(f'Dont be sad, {message.author.mention}')
 
         #  if message.content.contains('im sad'):
         #      msg = 'dont be sad'
