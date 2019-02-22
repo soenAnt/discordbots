@@ -41,6 +41,7 @@ class Togepi(commands.Bot):
         self.token = os.environ.get('BOT_TOKEN')
 
         self.add_command(self.hello)
+        self.add_command(self.sad)
 
     async def on_ready(self):
         print(f'Ready: {self.user} (ID: {self.user.id})')
