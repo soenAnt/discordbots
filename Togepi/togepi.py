@@ -57,21 +57,21 @@ class Togepi(commands.Bot):
         """ tells a user not to be sad """
         await ctx.send("no sad")
 
-async def on_message(self, message):
-    # we do not want the bot to reply to itself
-    if message.author.bot:
-        return
+    async def on_message(self, message):
+        # we do not want the bot to reply to itself
+        if message.author.bot:
+            return
 
-    if 'im sad' in message.content:
-       await message.channel.send('Dont be sad')
+        if 'im sad' in message.content:
+            await message.channel.send('Dont be sad')
     
-  #  if message.content.contains('im sad'):
-  #      msg = 'dont be sad'
-   #     await client.send_message(message.channel,msg)
+        #  if message.content.contains('im sad'):
+        #      msg = 'dont be sad'
+        #     await client.send_message(message.channel,msg)
 
- #   elif message.content.startswith('!hello'):
- #       msg = 'Hello {0.author.mention}'.format(message)
-  #      await client.send_message(message.channel, msg)
+        #   elif message.content.startswith('!hello'):
+        #       msg = 'Hello {0.author.mention}'.format(message)
+        #      await client.send_message(message.channel, msg)
    
 
     # @cool.command(name='bot')
