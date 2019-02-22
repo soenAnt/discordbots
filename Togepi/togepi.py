@@ -3,12 +3,17 @@ import discord
 from discord import utils
 import random
 import os
+from dotenv import load_dotenv
+load_dotenv()
+print(os.environ.get('BOT_TOKEN'))
 
 
 def run_in(channels):
     def predicate(ctx):
         return ctx.message.channel.name in channels
+
     return commands.check(predicate)
+
 
 client = discord.Client()
 
@@ -18,8 +23,7 @@ class Togepi(commands.Bot):
         super().__init__(
             command_prefix='?',
             description='''Hi! I'm Togepi!''',
-            fetch_offline_members=True
-        )
+            fetch_offline_members=True)
 
         self.client_id = os.environ.get('CLIENT_ID')
         self.token = os.environ.get('BOT_TOKEN')
@@ -37,10 +41,7 @@ class Togepi(commands.Bot):
 
     def run(self):
         try:
-            super().run(
-                self.token,
-                reconnect=True
-            )
+            super().run(self.token, reconnect=True)
         finally:
             pass
 
@@ -53,7 +54,7 @@ class Togepi(commands.Bot):
 
     @commands.command()
     async def sad(self, ctx):
-       # author = ctx.author
+        # author = ctx.author
         """ tells a user not to be sad """
         await ctx.send("no sad")
 
@@ -63,8 +64,9 @@ class Togepi(commands.Bot):
             return
 
         if 'im sad' in message.content:
-            await message.channel.send('Dont be sad')
-    
+            await message.channel.send(f'Dont be sad, {message.author.mention}'
+                                       )
+
         #  if message.content.contains('im sad'):
         #      msg = 'dont be sad'
         #     await client.send_message(message.channel,msg)
@@ -72,7 +74,6 @@ class Togepi(commands.Bot):
         #   elif message.content.startswith('!hello'):
         #       msg = 'Hello {0.author.mention}'.format(message)
         #      await client.send_message(message.channel, msg)
-   
 
     # @cool.command(name='bot')
     # async def _bot(self, ctx):
@@ -81,8 +82,10 @@ class Togepi(commands.Bot):
 
     # @cool.command(name='tatum')
     # async def _tatum(self, ctx):
-    #     """Is tatum cool?"""
-    #     await ctx.send('Yes, tatum is cool.')
+    #    lol kk oh bf not gonna like thattt """Is tatum cool?"""
+    #     await ctx.send('Yes, tatum is the coolest. You damn right i am')
+    #  NTQ2ODU3MjY5ODY2OTIxOTk0.D1DYHQ.Lb29wyLXs7xqW_-QzpDUOrklSWMs
+    # whats venv
 
 
 Togepi().run()
