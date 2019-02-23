@@ -71,7 +71,7 @@ class Togepi(commands.Bot):
                 f'Dont be sad, {message.author.mention} !!!')
 
         #elif message.content.find('bye') != -1:
-        elif any([sub in message.content for sub in('bye', 'Bye', 'bai', 'Bai','goodnight','gn','good night',)]):
+        elif any([sub in message.content for sub in('bye', 'Bye', 'bai', 'Bai','goodnight','good night',)]):
             await message.add_reaction('😘')
             await message.channel.send(
                 f'Bye Bye, {message.author.mention} !!'
