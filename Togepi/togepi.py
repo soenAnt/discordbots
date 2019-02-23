@@ -83,8 +83,8 @@ class Togepi(commands.Bot):
         if str(message.author) in ["noax#0265"]:
             await message.add_reaction('🐧') # for you, self may be client
 
-        if str(message.author) in ["Taterz#6769"]:
-            await message.add_reaction(r":gasp:535632776787918858") # for you, self may be client
+        #if str(message.author) in ["Taterz#6769"]:
+        #    await message.add_reaction(r":gasp:535632776787918858") # for you, self may be client
 
         await self.process_commands(message)
 
