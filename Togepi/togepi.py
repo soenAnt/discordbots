@@ -75,12 +75,12 @@ class Togepi(commands.Bot):
         regex = r"(?i)(togepi)\b"
         match = re.search(regex, message.content)
         if match:
-            await message.add_reaction('🐜')
+            await message.add_reaction('🥚')
             await message.channel.send(
-                f'success, {message.author.mention} !!'
+                f'That\'s me!, I\'m sorry I\'m not perfect. I\'m still growing! Forgive me!, {message.author.mention} !!'
             )
 
-        gn = r"(good\s?night)|(gn)\b|(gnite)\b"
+        gn = r"(good\s?night)|\b(gn)\b|(gnite)\b|(bye)\b"
         match2 = re.search(gn, message.content,re.MULTILINE | re.IGNORECASE)
         if match2:
             await message.add_reaction('😘')
