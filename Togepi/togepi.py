@@ -3,6 +3,7 @@ import discord
 from discord import utils
 import random
 import os
+import re
 from dotenv import load_dotenv
 load_dotenv()
 print(os.environ.get('BOT_TOKEN'))
@@ -71,17 +72,27 @@ class Togepi(commands.Bot):
                 f'Dont be sad, {message.author.mention} !!!')
 
         #elif message.content.find('bye') != -1:
-        elif any([sub in message.content for sub in('bye', 'Bye', 'bai', 'Bai','goodnight','good night',)]):
+        regex = r"(?i)(togepi)\b"
+        match = re.search(regex, message.content)
+        if match:
+            await message.add_reaction('🐜')
+            await message.channel.send(
+                f'success, {message.author.mention} !!'
+            )
+
+        gn = r"(good\s?night)|(gn)\b|(gnite)\b"
+        match2 = re.search(gn, message.content,re.MULTILINE | re.IGNORECASE)
+        if match2:
             await message.add_reaction('😘')
             await message.channel.send(
-                f'Bye Bye, {message.author.mention} !!'
+                f'Goodnight!, {message.author.mention} !!'
             )
         
         if str(message.author) in ["Dawgears🐶#6303"]:
             await message.add_reaction('🖕') # for you, self may be client
 
-        if str(message.author) in ["noax#0265"]:
-            await message.add_reaction('🐧') # for you, self may be client
+        #if str(message.author) in ["noax#0265"]:
+           # await message.add_reaction('🐧') # for you, self may be client
 
         #if str(message.author) in ["Taterz#6769"]:
         #    await message.add_reaction(r":gasp:535632776787918858") # for you, self may be client
